@@ -6,7 +6,7 @@ d=$(date +%Y.%d.%m)
 
 # polymer number of segments to sweep over
 NStart=1
-NStop=600
+NStop=200
 
 # output directory
 output_dir=/pub/kbogue1/GitHub/Data/polymer-c_data/
