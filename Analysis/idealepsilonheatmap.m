@@ -1,4 +1,29 @@
 function idealepsilonheatmap(lookuptab,FH2_dist,type1,saveTF,savefigfolder,limits,maxNT,maxCT,minNT,minCT,plotprms)
+%IDEALEPSILONHEATMAP creates heatmaps of the ideal epsilon value to
+%minimize the difference between the calculated and simulated pocc values
+%across PRM locations
+%
+% fig =IDEALEPSILONHEATMAP(lookuptab,FH2_dist,type1,saveTF,savefigfolder,limits,maxNT,maxCT,minNT,minCT,plotprms)
+% 
+% Inputs:
+%       lookuptab       : (Lookuptable) lookuptable object to pull values
+%                       from
+%       FH2_dist        : (String) FH2 size to label
+%       type1           : (String) kpoly type (3st, 4st)
+%       saveTF          : (Bool) Whether to save the figure (default is false)
+%       savefigfolder   : (String) Location to save the figure to (default
+%       is "")
+%       limits          : Heatmap label limits (of the form [a b]) (default
+%       is no limits)
+%       maxNT           : Max distance from PRM to NT to plot (default is 400)
+%       maxCT           : Max distance from PRM to CT to plot (default is 400)
+%       minNT           : Min distance from PRM to NT to plot (default is 0)
+%       minCT           : Min distance from PRM to CT to plot (default is 1)
+%       plotprms        : (Bool) whether or not to overplot example PRM
+%                         locations (default is true)
+%   Loads customcolorbar_red_blue.mat
+% 
+% See also LOOKUPTABLE.
 arguments
     lookuptab
     FH2_dist

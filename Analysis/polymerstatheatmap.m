@@ -1,4 +1,37 @@
 function polymerstatheatmap(ltvar,lookuptab,FH2_dist,type1,calcTF,saveTF,savefigfolder,limits,expplt,maxNT,maxCT,minNT,minCT,xcord,ycord,plotprms,epsilon)
+%POLYMERSTATHEATMAP creates heatmaps of a lookuptable variable wrt PRM
+%location
+%
+% fig =POLYMERSTATHEATMAP(ltvar,lookuptab,FH2_dist,type1,calcTF,saveTF,savefigfolder,limits,expplt,maxNT,maxCT,minNT,minCT,xcord,ycord,plotprms,epsilon)
+% 
+% Inputs:
+%       ltvar           : (String) the lookup table variable to plot 
+%       lookuptab       : (Lookuptable) lookuptable object to pull values
+%                       from
+%       FH2_dist        : (String) FH2 size to label (and use for prvec
+%       calc if applicable)
+%       type1           : (String) kpoly type (3st, 4st)
+%       calcTF          : (Bool) Whether to use equations rather than pull from the lookuptable (default is false)
+%       saveTF          : (Bool) Whether to save the figure (default is false)
+%       savefigfolder   : (String) Location to save the figure to (default
+%       is "")
+%       limits          : Heatmap label limits (of the form [a b]) (default
+%       is no limits)
+%       expplt          : (Experiment) Experiment object containing formins
+%       to overplot PRM locations (no plotting if no Experiment is given)
+%       maxNT           : Max distance from PRM to NT to plot (default is 300)
+%       maxCT           : Max distance from PRM to CT to plot (default is 300)
+%       minNT           : Min distance from PRM to NT to plot (default is 0)
+%       minCT           : Min distance from PRM to CT to plot (default is 5)
+%       xcord           : x coordinate of delivery location, only valid if calcTF=True and ltvar="Prvec0" (default is 0)
+%       ycord           : y coordinate of delivery location, only valid if calcTF=True and ltvar="Prvec0" (default is 0)
+%       plotprms        : (Bool) whether or not to overplot example PRM
+%       locations (default is true)
+%       epsilon         : epsilon value for computing pocc, only valid if calcTF=True and ltvar="POcclude" (default is 1)
+%
+%   Loads customcolorbar_red_blue.mat
+% 
+% See also LOOKUPTABLE, PR.
 arguments
     ltvar
     lookuptab
@@ -113,6 +146,8 @@ end
 h=heatmap(tab,'Var2','Var3','ColorVariable','Var1');
 h.XLabel="Distance from PRM to FH2";
 h.YLabel="Distance from PRM to NTD";
+h.FontSize=7;
+
 h.ColorMethod = 'none';
 h.GridVisible="off";
 h.NodeChildren(3).YDir='normal';
