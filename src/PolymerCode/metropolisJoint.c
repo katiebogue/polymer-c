@@ -859,6 +859,7 @@ void metropolisJoint()
         }
 		
         // output to time series file
+       // printf("about to start dataRecording");
 		dataRecording();
         
         /********* 6. Increment time *******************/

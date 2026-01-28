@@ -800,6 +800,7 @@ void finalizeSummary(int reallyFinal)
 // Prepare stuff and optionally write to file - this function is called each timestep
 void dataRecording()
 {
+   // printf("Starting dataRecording");
 
     // end-to-end distance
     for(nf=0;nf<NFil;nf++)
@@ -1096,42 +1097,54 @@ void dataRecording()
 
         if ( (nt > NTCHECK && nt <= NTCHECK+200000) ) //only output 4000 runs, after initial transient
         {
+            //printf("Starting file output in dataRecording");
         // output results to file
         fList = fopen(listName, "a");
+        if (!fList) { printf("Error: Could not open %s\n", listName); return; }
 
-        fprintf(fList, "%ld %f %f %f %f %f %ld",
-                nt,                         // 1
-                E,                          // 2
-                dChi[0],                    // 3
-                dChi[1],                    // 4
-                rate[0],                    // 5
-                rate[1],                    // 6
-                constraintProposalsTotal);  // 7
+        fprintf(fList, "%ld ", nt);
+
+        fList_base = fopen(liveListName_base, "a");
+        if (!fList_base) { printf("Error: Could not open %s\n", liveListName_base); return; }
+
+        fList_locs = fopen(liveListName_locs, "a");
+        if (!fList_locs) { printf("Error: Could not open %s\n", liveListName_locs); return; }
+
+        fList_bound = fopen(liveListName_bound, "a");
+        if (!fList_bound) { printf("Error: Could not open %s\n", liveListName_bound); return; }
+        // fprintf(fList, "%ld %f %f %f %f %f %ld",
+        //         nt,                         // 1
+        //         E,                          // 2
+        //         dChi[0],                    // 3
+        //         dChi[1],                    // 4
+        //         rate[0],                    // 5
+        //         rate[1],                    // 6
+        //         constraintProposalsTotal);  // 7
 
         for(nf=0;nf<NFil;nf++)
         {
 
-            fprintf(fList, " %f %f %f %f",
-                    ree[nf],                // 8 + (4 + NFil + 3*iSiteTotal[nf] + 1 + 3 + 3*N[nf] + 3*iSiteTotal[nf] + 3)*nf
-                    rM[nf],                 // 9
-                    rH[nf],                 // 10
-                    ksStatistic[nf]);       // 11
+            // fprintf(fList, " %f %f %f %f",
+            //         ree[nf],                // 8 + (4 + NFil + 3*iSiteTotal[nf] + 1 + 3 + 3*N[nf] + 3*iSiteTotal[nf] + 3)*nf
+            //         rM[nf],                 // 9
+            //         rH[nf],                 // 10
+            //         ksStatistic[nf]);       // 11
 
-            for(nf2=0;nf2<NFil;nf2++)
-            {
-                fprintf(fList, " %f",
-                        reeFil[nf][nf2]);   // 12 + nf2
-            }
+            // for(nf2=0;nf2<NFil;nf2++)
+            // {
+            //     fprintf(fList, " %f",
+            //             reeFil[nf][nf2]);   // 12 + nf2
+            // }
 
-            for(iy=0;iy<iSiteTotal[nf];iy++)
-            {
-                fprintf(fList, " %ld %ld %ld",
-                        stericOcclusion[nf][iy],                // 13 + (NFil-1) + 3*iy
-                        membraneOcclusion[nf][iy],              // 14 + (NFil-1) + 3*iy
-                        membraneAndSegmentOcclusion[nf][iy]);   // 15 + (NFil-1) + 3*iy
-            }
+            // for(iy=0;iy<iSiteTotal[nf];iy++)
+            // {
+            //     fprintf(fList, " %ld %ld %ld",
+            //             stericOcclusion[nf][iy],                // 13 + (NFil-1) + 3*iy
+            //             membraneOcclusion[nf][iy],              // 14 + (NFil-1) + 3*iy
+            //             membraneAndSegmentOcclusion[nf][iy]);   // 15 + (NFil-1) + 3*iy
+            // }
 
-            fprintf(fList, " %ld", stericOcclusionBase[nf]);    // 16 + (NFil-1) + 3*(iSiteTotal[nf]-1)
+            // fprintf(fList, " %ld", stericOcclusionBase[nf]);    // 16 + (NFil-1) + 3*(iSiteTotal[nf]-1)
 
             if (VISUALIZE)
             {
@@ -1140,6 +1153,10 @@ void dataRecording()
                         rBase[nf][0],   // 17 + (NFil-1) + 3*(iSiteTotal[nf]-1)
                         rBase[nf][1],   // 18 + (NFil-1) + 3*(iSiteTotal[nf]-1)
                         rBase[nf][2]);  // 19 + (NFil-1) + 3*(iSiteTotal[nf]-1)
+                fprintf(fList_base, " %f %f %f",
+                        rBase[nf][0],   // 17 + (NFil-1) + 3*(iSiteTotal[nf]-1)
+                        rBase[nf][1],   // 18 + (NFil-1) + 3*(iSiteTotal[nf]-1)
+                        rBase[nf][2]);
 
                 // print segment locations
                 for (i=0;i<N[nf];i++)
@@ -1148,6 +1165,10 @@ void dataRecording()
                             r[nf][i][0],    // 20 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
                             r[nf][i][1],    // 21 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
                             r[nf][i][2]);   // 22 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
+                    fprintf(fList_locs, " %f %f %f",
+                            r[nf][i][0],    // 20 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
+                            r[nf][i][1],    // 21 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
+                            r[nf][i][2]);
                 }
 
                 // print iSite ligand centers
@@ -1175,6 +1196,10 @@ void dataRecording()
                                 bLigandCenter[nf][ib][0],    // 29 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
                                 bLigandCenter[nf][ib][1],    // 30 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
                                 bLigandCenter[nf][ib][2]);   // 31 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                        fprintf(fList_bound, " %f %f %f",
+                                bLigandCenter[nf][ib][0],    // 29 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                                bLigandCenter[nf][ib][1],    // 30 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                                bLigandCenter[nf][ib][2]); 
                     }
                 }
 
@@ -1195,7 +1220,13 @@ void dataRecording()
             }
 
             fprintf(fList, "\n");
+            fprintf(fList_bound, "\n");
+            fprintf(fList_base, "\n");
+            fprintf(fList_locs, "\n");
             fclose(fList);
+            fclose(fList_bound);
+            fclose(fList_base);
+            fclose(fList_locs);
         }
     } // finished verbose output
 

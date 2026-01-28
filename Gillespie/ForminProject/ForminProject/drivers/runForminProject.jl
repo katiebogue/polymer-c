@@ -44,6 +44,7 @@ fname = "/Users/katiebogue/MATLAB/GitHub/Data/polymer-c_data/bni1_msb_40actin/do
 
 # folder name to save everything to in the saveloc
 savfname = "actinsize40"
+savfname = "testingtesting123"
 
 # generate transition matrices and files
 # using Profile

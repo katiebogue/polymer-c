@@ -3,7 +3,7 @@
 #define TWISTER genrand_real3()
 #define NFILMAX         3
 #define NMAX            1201
-#define NTMAX           1e10
+#define NTMAX           200300
 #define NTADAPT         20000
 #define NTCHECK         200000
 #define DCHIMIN         1e-4
@@ -14,7 +14,7 @@
 #define DCHIINIT        0.1
 #define KSCRITICAL      0.002
 #define MEMBRANE        0
-#define MULTIPLE        0
+#define MULTIPLE        1
 #define STIFFEN         0
 #define ELECTRO         0
 #define HARDWALL        0
@@ -40,10 +40,9 @@
 
 /* General Global Variables */
 char listName[100];
-FILE *fList;
+FILE *fList, *fList_base, *fList_locs, *fList_bound;
 
-char liveListName[100];
-
+char liveListName[100], liveListName_base[100], liveListName_locs[100], liveListName_bound[100];
 //
 char paramsFilename[100], filamentFilename[100], iSiteFilename[100], bSiteFilename[100], basicSiteFilename[100];
 FILE *paramsFile, *filList, *iSiteList, *bSiteList, *basicSiteList;
@@ -179,6 +178,17 @@ int main( int argc, char *argv[] )
         if (TALKATIVE) printf("This is the output filename: %s\n", listName);
         strcat(liveListName, "live_");
         strcat(liveListName, listName);
+
+        strcat(liveListName_bound, listName);
+        strcat(liveListName_bound, "_bound.txt");
+
+
+        strcat(liveListName_locs, listName);
+        strcat(liveListName_locs, "_locs.txt");
+
+
+        strcat(liveListName_base, listName);
+        strcat(liveListName_base, "_base.txt");
 
         if (TALKATIVE) printf("This is the liveoutput filename: %s\n", listName);
 
