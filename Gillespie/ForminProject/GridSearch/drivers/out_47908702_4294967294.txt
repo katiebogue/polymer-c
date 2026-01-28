@@ -1,0 +1,6 @@
+Job  started on:    hpc3-22-12
+Job  started on:    Tue Jan 27 11:06:00 AM PST 2026
+/pub/kbogue1/GitHub/polymer-c/Gillespie/ForminProject/GridSearch/drivers
+Job  ended on:    hpc3-22-12
+Job  ended on:    Tue Jan 27 11:06:02 AM PST 2026
+ 

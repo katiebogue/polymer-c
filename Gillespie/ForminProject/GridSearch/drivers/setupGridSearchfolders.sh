@@ -9,7 +9,7 @@ output_dir=/dfs6/pub/kbogue1/GitHub/Data/Gillespie_data/HPC3outputs
 
 polymercdir=/dfs6/pub/kbogue1/GitHub//Data/polymer-c_data/bni1_msb_40actin/double.2025.24.02/BSD35.5.radtype20
 
-step=100
+step=15
 
 mkdir $output_dir/GridSearch.${d}
 
