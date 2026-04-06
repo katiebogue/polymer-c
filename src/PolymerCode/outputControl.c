@@ -745,7 +745,7 @@ void finalizeSummary(int reallyFinal)
     if(verboseTF && VISUALIZE)
     {
         //print second file with only parameters for the run
-        char listNameParams[200];
+        char listNameParams[PATH_MAX];
         strcpy(listNameParams,listName);
         strcat(listNameParams,"_VisualParameters");
 
@@ -1095,8 +1095,9 @@ void dataRecording()
     if (verboseTF)
     {
 
-        if ( (nt > NTCHECK && nt <= NTCHECK+200000) ) //only output 4000 runs, after initial transient
+        if ( (nt > NTCHECK && nt <= NTCHECK+2000000 && (nt%13) == 0) ) //only output 4000 runs, after initial transient
         {
+            //printf("nt: %ld\n", nt);
             //printf("Starting file output in dataRecording");
         // output results to file
         fList = fopen(listName, "a");

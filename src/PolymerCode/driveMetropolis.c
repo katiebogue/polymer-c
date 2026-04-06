@@ -3,9 +3,9 @@
 #define TWISTER genrand_real3()
 #define NFILMAX         3
 #define NMAX            1201
-#define NTMAX           200300
+#define NTMAX           503906 //590100 530000
 #define NTADAPT         20000
-#define NTCHECK         200000
+#define NTCHECK         500000 
 #define DCHIMIN         1e-4
 #define NBINS           100
 #define NBINSPOLYMER    3000
@@ -39,10 +39,10 @@
 /*******************************************************************************/
 
 /* General Global Variables */
-char listName[100];
+char listName[PATH_MAX];
 FILE *fList, *fList_base, *fList_locs, *fList_bound;
 
-char liveListName[100], liveListName_base[100], liveListName_locs[100], liveListName_bound[100];
+char liveListName[PATH_MAX], liveListName_base[PATH_MAX], liveListName_locs[PATH_MAX], liveListName_bound[PATH_MAX];
 //
 char paramsFilename[100], filamentFilename[100], iSiteFilename[100], bSiteFilename[100], basicSiteFilename[100];
 FILE *paramsFile, *filList, *iSiteList, *bSiteList, *basicSiteList;
@@ -167,6 +167,8 @@ int main( int argc, char *argv[] )
         strcpy(paramsFilename,argv[1]);
     if (TALKATIVE) printf("This is the parameter filename: %s\n", paramsFilename);
 
+    // printf("%s\n\n",argv[2]);
+
     // use text file to set parameters
     getParameters();
 
@@ -190,7 +192,7 @@ int main( int argc, char *argv[] )
         strcat(liveListName_base, listName);
         strcat(liveListName_base, "_base.txt");
 
-        if (TALKATIVE) printf("This is the liveoutput filename: %s\n", listName);
+        if (TALKATIVE) printf("This is the liveoutput filename: %s\n", liveListName);
 
     }
 

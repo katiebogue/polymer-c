@@ -2,3 +2,4 @@
 *.m~
 .vscode/
 *.mat
+verboseouts/*
