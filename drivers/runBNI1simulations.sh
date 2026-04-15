@@ -20,10 +20,14 @@ mkdir $output_dir/${d}
 
 radtype=20
 
-occupied_opts=("25_42_63_104" "25" "42" "63" "104" "25_42" "25_63" "25_104" "25_42_63" "25_42_104" "25_63_104" "42_63" "42_63_104" "42_104" "63_104" "-1")
-
+#occupied_opts=("25_42_63_104" "25" "42" "63" "104" "25_42" "25_63" "25_104" "25_42_63" "25_42_104" "25_63_104" "42_63" "42_63_104" "42_104" "63_104" "-1")
+#numopts=16
 #occupied_opts=("-1")
 
+occupied_opts=("25_42_63_104" "104" "-1")
+numopts=3
+
+numopts=$((numopts - 1))
 
 NFil=2       #2
 #NumSeg=${i} #single=300; double=200; dimer=122
@@ -40,9 +44,9 @@ force=0
 #
 
 
-for i in $(seq 0 15); do
+for i in $(seq 0 $numopts); do
     firstocc=${occupied_opts[$i]}
-    for j in $(seq 0 15); do
+    for j in $(seq 0 $numopts); do
         secocc=${occupied_opts[$j]}
         occupiedtype=${firstocc}__${secocc}
 
@@ -50,9 +54,9 @@ for i in $(seq 0 15); do
     done
 done
 
-for i in $(seq 0 15); do
+for i in $(seq 0 $numopts); do
     firstocc=${occupied_opts[$i]}
-    for j in $(seq 0 15); do
+    for j in $(seq 0 $numopts); do
         secocc=${occupied_opts[$j]}
         occupiedtype=${firstocc}__${secocc}
 

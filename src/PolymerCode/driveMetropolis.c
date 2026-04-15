@@ -18,7 +18,7 @@
 #define STIFFEN         0
 #define ELECTRO         0
 #define HARDWALL        0
-#define BASEBOUND       0
+#define BASEBOUND       1
 #define CPMAX           1e8
 #define TALKATIVE       1
 #define VISUALIZE       1
@@ -129,6 +129,7 @@ long basicSite[NFILMAX][NMAX], BasicSitesYN[NFILMAX][NMAX], basicSiteTotal[NFILM
 double baserLigand;
 double baseLigandCenter[NFILMAX][3];
 double baseCenter[3];
+double baseboundtype; // 0= sphere at base of filament 1, 1= sphere in center, 2= plane at FH2 (radius doesn't apply), 3= cylinder (with same radius as sphere)
 
 /* MULTIPLE FILAMENT Variables*/
 double baseSepDistance;
@@ -260,7 +261,7 @@ int main( int argc, char *argv[] )
                 40 - N+iy/(2*NBINS)
                 50 - for iy>200, N/NBINS, for iy<=200 iy/NBINS
             */
-            printf("This is the radius type: %lf\n", radtype);
+            printf("This is the radius type: %d\n", radtype);
         }
     }else{
         radtype = 10;
@@ -272,7 +273,7 @@ int main( int argc, char *argv[] )
             40 - N+iy/(2*NBINS)
             50 - for iy>200, N/NBINS, for iy<=200 iy/NBINS
         */
-        printf("This is the radius type: %lf\n", radtype);
+        printf("This is the radius type: %d\n", radtype);
     }
 
 

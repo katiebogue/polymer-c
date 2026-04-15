@@ -109,6 +109,9 @@ void getParameters()
     
     fscanf(paramsFile,"%s %ld", tmpString, &iSiteTemp);
     if (TALKATIVE) printf("This is iSiteTemp: %ld\n", iSiteTemp);
+
+    fscanf(paramsFile,"%s %lf", tmpString, &baseboundtype);
+    if (TALKATIVE) printf("This is baseboundtype: %lf\n", baseboundtype);
     
     fclose(paramsFile);
     

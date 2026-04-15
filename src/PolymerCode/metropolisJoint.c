@@ -71,7 +71,14 @@ void metropolisJoint()
     // Only have one 'base ligand' - not one per filament
     if (BASEBOUND)
     {
-        baseCenter[0] = 0;
+        if (baseboundtype==0)
+        {
+            baseCenter[0] = 0; // have be at the base of the first filament
+        }
+        else
+        {
+            baseCenter[0] = baseSepDistance*0.5; // move to be in the center of the two attachment points
+        }
         baseCenter[1] = 0;
         baseCenter[2] = -baserLigand;
     }
@@ -400,13 +407,42 @@ void metropolisJoint()
                 {
                     for(i=0;i<N[nf];i++)// for each joint
                     {
-                        //test polymer against sphere at base
-                        if ( ((baseCenter[0]-rPropose[nf][i][0])*(baseCenter[0]-rPropose[nf][i][0]) +
+                        if (baseboundtype==3)
+                        {
+                            if ( rPropose[nf][i][2] < 0 ) //if proposed joint is above the plane?
+                            {
+                                if ( ((baseCenter[0]-rPropose[nf][i][0])*(baseCenter[0]-rPropose[nf][i][0]) +
+                                    (baseCenter[1]-rPropose[nf][i][1])*(baseCenter[1]-rPropose[nf][i][1]) <= baserLigand*baserLigand )) //if proposed joint is inside base cylinder circle
+                                {
+                                    //printf("This joint: %ld was at location: %ld\n", i, rPropose[nf][i][2]);
+                                    constraintSatisfiedTF=0; //constraint not satisfied
+                                    i=N[nf]; //shortcut out of inner loop
+                                }
+                            }
+                        }
+                        else if (baseboundtype==2)
+                        {
+                            if ( rPropose[nf][i][2] < 0 ) //if proposed joint is above the plane?
+                            {
+                                //printf("This joint: %ld was at location: %ld\n", i, rPropose[nf][i][2]);
+                                constraintSatisfiedTF=0; //constraint not satisfied
+                                i=N[nf]; //shortcut out of inner loop
+                            }
+                        }
+                        else
+                        {
+                            if ( ((baseCenter[0]-rPropose[nf][i][0])*(baseCenter[0]-rPropose[nf][i][0]) +
                               (baseCenter[1]-rPropose[nf][i][1])*(baseCenter[1]-rPropose[nf][i][1]) +
                               (baseCenter[2]-rPropose[nf][i][2])*(baseCenter[2]-rPropose[nf][i][2]) <= baserLigand*baserLigand )) //if proposed joint is inside base ligand sphere
-                        {
-                            constraintSatisfiedTF=0; //constraint not satisfied
-                            i=N[nf]; //shortcut out of inner loop
+                            {
+                                if ( ((baseCenter[0]-rPropose[nf][i][0])*(baseCenter[0]-rPropose[nf][i][0]) +
+                                    (baseCenter[1]-rPropose[nf][i][1])*(baseCenter[1]-rPropose[nf][i][1]) <= baserLigand*baserLigand )) //if proposed joint is inside base cylinder circle
+                                {
+                                    //printf("This joint: %ld was at location: %ld\n", i, rPropose[nf][i][2]);
+                                    constraintSatisfiedTF=0; //constraint not satisfied
+                                    i=N[nf]; //shortcut out of inner loop
+                                }
+                            }
                         }
                     }
                 }
@@ -512,18 +548,41 @@ void metropolisJoint()
                         // only have 1 base ligand for all filaments
                         if (BASEBOUND)
                         {
-                            if ((bLigandCenterPropose[nf][ib][0]-baseCenter[0])*(bLigandCenterPropose[nf][ib][0]-baseCenter[0])+
-                                (bLigandCenterPropose[nf][ib][1]-baseCenter[1])*(bLigandCenterPropose[nf][ib][1]-baseCenter[1])+
-                                (bLigandCenterPropose[nf][ib][2]-baseCenter[2])*(bLigandCenterPropose[nf][ib][2]-baseCenter[2])<=
-                                (brLigand+baserLigand)*(brLigand+baserLigand)) //if distance between centers is less than brLigand+baserLigand, then ligands are intersecting
+                            if (baseboundtype==3)
                             {
-                                boundCentertoBaseLigandDistance = sqrt((bLigandCenterPropose[nf][ib][0]-baseCenter[0])*(bLigandCenterPropose[nf][ib][0]-baseCenter[0])+
-                                                                       (bLigandCenterPropose[nf][ib][1]-baseCenter[1])*(bLigandCenterPropose[nf][ib][1]-baseCenter[1])+
-                                                                       (bLigandCenterPropose[nf][ib][2]-baseCenter[2])*(bLigandCenterPropose[nf][ib][2]-baseCenter[2])) - (brLigand+baserLigand);
-                                
-                                ENew += 0.5*kBound*boundCentertoBaseLigandDistance*boundCentertoBaseLigandDistance;
+                                if ( bLigandCenterPropose[nf][i][2] <= brLigand ) //if ligand is above the plane?
+                                {
+                                    if ((bLigandCenterPropose[nf][ib][0]-baseCenter[0])*(bLigandCenterPropose[nf][ib][0]-baseCenter[0])+
+                                        (bLigandCenterPropose[nf][ib][1]-baseCenter[1])*(bLigandCenterPropose[nf][ib][1]-baseCenter[1])<=
+                                        (brLigand+baserLigand)*(brLigand+baserLigand)) //if distance between centers is less than brLigand+baserLigand, then ligand is intersecting the cylinder circle
+                                    {
+                                        boundCentertoBaseLigandDistance = sqrt((bLigandCenterPropose[nf][ib][0]-baseCenter[0])*(bLigandCenterPropose[nf][ib][0]-baseCenter[0])+
+                                                                            (bLigandCenterPropose[nf][ib][1]-baseCenter[1])*(bLigandCenterPropose[nf][ib][1]-baseCenter[1])) - (brLigand+baserLigand);
+                                        ENew += 0.5*kBound*boundCentertoBaseLigandDistance*boundCentertoBaseLigandDistance;
+                                    }
+                                }
                             }
-                            
+                            else if (baseboundtype==2)
+                            {
+                                if ( bLigandCenterPropose[nf][i][2] <= brLigand ) //if ligand is above the plane?
+                                {
+                                    boundCentertoBaseLigandDistance = bLigandCenterPropose[nf][i][2] - brLigand;
+                                    ENew += 0.5*kBound*boundCentertoBaseLigandDistance*boundCentertoBaseLigandDistance;
+                                }
+                            }
+                            else
+                            {
+                                if ((bLigandCenterPropose[nf][ib][0]-baseCenter[0])*(bLigandCenterPropose[nf][ib][0]-baseCenter[0])+
+                                    (bLigandCenterPropose[nf][ib][1]-baseCenter[1])*(bLigandCenterPropose[nf][ib][1]-baseCenter[1])+
+                                    (bLigandCenterPropose[nf][ib][2]-baseCenter[2])*(bLigandCenterPropose[nf][ib][2]-baseCenter[2])<=
+                                    (brLigand+baserLigand)*(brLigand+baserLigand)) //if distance between centers is less than brLigand+baserLigand, then ligands are intersecting
+                                {
+                                    boundCentertoBaseLigandDistance = sqrt((bLigandCenterPropose[nf][ib][0]-baseCenter[0])*(bLigandCenterPropose[nf][ib][0]-baseCenter[0])+
+                                                                           (bLigandCenterPropose[nf][ib][1]-baseCenter[1])*(bLigandCenterPropose[nf][ib][1]-baseCenter[1])+
+                                                                           (bLigandCenterPropose[nf][ib][2]-baseCenter[2])*(bLigandCenterPropose[nf][ib][2]-baseCenter[2])) - (brLigand+baserLigand);
+                                    ENew += 0.5*kBound*boundCentertoBaseLigandDistance*boundCentertoBaseLigandDistance;
+                                }
+                            }
                         }
                         
                         /**********************/
@@ -747,13 +806,35 @@ void metropolisJoint()
                         // check if BASEBOUND (immobile sphere at base) occludes iSite
                         if (BASEBOUND)
                         {
-                            if ( (iLigandCenter[nf][iy][0]-baseCenter[0])*(iLigandCenter[nf][iy][0]-baseCenter[0]) +
+                            if (baseboundtype==3)
+                            {
+                                if ( iLigandCenter[nf][i][2] <= 0 ) //if potential ligand  is above the plane?
+                                {
+                                    if ( (iLigandCenter[nf][iy][0]-baseCenter[0])*(iLigandCenter[nf][iy][0]-baseCenter[0]) +
+                                    (iLigandCenter[nf][iy][1]-baseCenter[1])*(iLigandCenter[nf][iy][1]-baseCenter[1])  <= (irLigand+baserLigand)*(irLigand+baserLigand))
+                                    {
+                                        stericOcclusion[nf][iy]++;
+                                    }
+                                }
+                            }
+                            else if (baseboundtype==2)
+                            {
+                                if ( iLigandCenter[nf][i][2] <= 0 ) //if potential ligand  is above the plane?
+                                {
+                                    stericOcclusion[nf][iy]++;
+                                }
+                            }
+                            else
+                            {
+                                if ( (iLigandCenter[nf][iy][0]-baseCenter[0])*(iLigandCenter[nf][iy][0]-baseCenter[0]) +
                                 (iLigandCenter[nf][iy][1]-baseCenter[1])*(iLigandCenter[nf][iy][1]-baseCenter[1]) +
                                 (iLigandCenter[nf][iy][2]-baseCenter[2])*(iLigandCenter[nf][iy][2]-baseCenter[2]) <= (irLigand+baserLigand)*(irLigand+baserLigand))
                                 // if potential ligand intersects with base ligand (immobile sphere at base of polymer cluster)
-                            {
-                                stericOcclusion[nf][iy]++;
+                                {
+                                    stericOcclusion[nf][iy]++;
+                                }
                             }
+                            
                         } // finished third constraint
                     }
                     
@@ -807,14 +888,36 @@ void metropolisJoint()
                     
                     if (BASEBOUND && stericOcclusionBase[nf]==0) //if not occluded yet, do further tests
                     {
-                            if ( (baseLigandCenter[nf][0]-baseCenter[0])*(baseLigandCenter[nf][0]-baseCenter[0]) +
-                                (baseLigandCenter[nf][1]-baseCenter[1])*(baseLigandCenter[nf][1]-baseCenter[1]) +
-                                (baseLigandCenter[nf][2]-baseCenter[2])*(baseLigandCenter[nf][2]-baseCenter[2]) < (irLigand+baserLigand)*(irLigand+baserLigand))
-                                // if potential ligand intersects with base ligand (immobile sphere at base of polymer cluster)
-                                // do not include equality - that way e.g. baseLigand at origin won't always be occluded by baseCenter sphere
+                        if (baseboundtype==3)
+                        {
+                            if ( baseLigandCenter[nf][2] < 0 ) //if potential ligand  is above the plane?
+                            {
+                                if ( (baseLigandCenter[nf][0]-baseCenter[0])*(baseLigandCenter[nf][0]-baseCenter[0]) +
+                                    (baseLigandCenter[nf][1]-baseCenter[1])*(baseLigandCenter[nf][1]-baseCenter[1])  < (irLigand+baserLigand)*(irLigand+baserLigand))
+                                {
+                                    stericOcclusionBase[nf]++;
+                                }
+                            }
+                        }
+                        else if (baseboundtype==2)
+                        {
+                            if ( baseLigandCenter[nf][2] < 0 ) //if potential ligand  is above the plane?
                             {
                                 stericOcclusionBase[nf]++;
                             }
+                        }
+                        else
+                        {
+                        
+                            if ( (baseLigandCenter[nf][0]-baseCenter[0])*(baseLigandCenter[nf][0]-baseCenter[0]) +
+                                (baseLigandCenter[nf][1]-baseCenter[1])*(baseLigandCenter[nf][1]-baseCenter[1]) +
+                                (baseLigandCenter[nf][2]-baseCenter[2])*(baseLigandCenter[nf][2]-baseCenter[2]) < (irLigand+baserLigand)*(irLigand+baserLigand))
+                            //     // if potential ligand intersects with base ligand (immobile sphere at base of polymer cluster)
+                            //     // do not include equality - that way e.g. baseLigand at origin won't always be occluded by baseCenter sphere
+                            {
+                                stericOcclusionBase[nf]++;
+                            }
+                        }
                     }
 
                     //check occlusion with other ligands  - to test if they "deliver" their cargo
