@@ -3,7 +3,11 @@
 #define TWISTER genrand_real3()
 #define NFILMAX         3
 #define NMAX            1201
+<<<<<<< Updated upstream
 #define NTMAX           1e10 
+=======
+#define NTMAX           504515 //590100 530000
+>>>>>>> Stashed changes
 #define NTADAPT         20000
 #define NTCHECK         200000 
 #define DCHIMIN         1e-4
@@ -18,7 +22,7 @@
 #define STIFFEN         0
 #define ELECTRO         0
 #define HARDWALL        0
-#define BASEBOUND       1
+#define BASEBOUND       0
 #define CPMAX           1e8
 #define TALKATIVE       1
 #define VISUALIZE       1

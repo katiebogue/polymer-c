@@ -13,7 +13,7 @@ d=$(date +%Y.%d.%m.%M)
 output_dir=/Users/katiebogue/MATLAB/GitHub/polymer-c/verboseouts
 
 # dimerization state
-what='double' #'single' 'double'
+what='dimer' #'single' 'double'
 
 mkdir $output_dir/${d}
 # type of radius run
@@ -24,8 +24,8 @@ radtype=20
 #numopts=16
 #occupied_opts=("-1")
 
-occupied_opts=("25_42_63_104" "104" "-1")
-numopts=3
+occupied_opts=("-1")
+numopts=1
 
 numopts=$((numopts - 1))
 
@@ -37,8 +37,8 @@ if [ ${NFil} -eq 2 ]; then
 else
     baseSepDist=0
 fi
-#dimerForce=10 #0
-dimerForce=0
+#dimerForce=0 #0
+dimerForce=10
 iSite='-1'
 force=0
 #
