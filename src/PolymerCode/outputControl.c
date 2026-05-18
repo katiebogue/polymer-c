@@ -487,7 +487,7 @@ void finalizeSummary(int reallyFinal)
         }
     }
 
-    if (!verboseTF)
+    //if (!verboseTF)
     {
         if (reallyFinal == 1)
             fList = fopen(listName, "a");
@@ -1095,15 +1095,15 @@ void dataRecording()
     if (verboseTF)
     {
 
-        if ( (nt > NTCHECK && nt <= NTCHECK+2000000 && (nt%13) == 0) ) //only output 4000 runs, after initial transient
+        if ( (nt > NTCHECK && nt <= NTCHECK+301000 && (nt%1000) == 0) ) //only output ~300 runs with 200 runs in between, after initial transient
         {
             //printf("nt: %ld\n", nt);
             //printf("Starting file output in dataRecording");
         // output results to file
-        fList = fopen(listName, "a");
-        if (!fList) { printf("Error: Could not open %s\n", listName); return; }
+        // fList = fopen(listName, "a");
+        // if (!fList) { printf("Error: Could not open %s\n", listName); return; }
 
-        fprintf(fList, "%ld ", nt);
+        //fprintf(fList, "%ld ", nt);
 
         fList_base = fopen(liveListName_base, "a");
         if (!fList_base) { printf("Error: Could not open %s\n", liveListName_base); return; }
@@ -1150,10 +1150,10 @@ void dataRecording()
             if (VISUALIZE)
             {
                 // print base locations
-                fprintf(fList, " %f %f %f",
-                        rBase[nf][0],   // 17 + (NFil-1) + 3*(iSiteTotal[nf]-1)
-                        rBase[nf][1],   // 18 + (NFil-1) + 3*(iSiteTotal[nf]-1)
-                        rBase[nf][2]);  // 19 + (NFil-1) + 3*(iSiteTotal[nf]-1)
+                // fprintf(fList, " %f %f %f",
+                //         rBase[nf][0],   // 17 + (NFil-1) + 3*(iSiteTotal[nf]-1)
+                //         rBase[nf][1],   // 18 + (NFil-1) + 3*(iSiteTotal[nf]-1)
+                //         rBase[nf][2]);  // 19 + (NFil-1) + 3*(iSiteTotal[nf]-1)
                 fprintf(fList_base, " %f %f %f",
                         rBase[nf][0],   // 17 + (NFil-1) + 3*(iSiteTotal[nf]-1)
                         rBase[nf][1],   // 18 + (NFil-1) + 3*(iSiteTotal[nf]-1)
@@ -1162,10 +1162,10 @@ void dataRecording()
                 // print segment locations
                 for (i=0;i<N[nf];i++)
                 {
-                    fprintf(fList, " %f %f %f",
-                            r[nf][i][0],    // 20 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
-                            r[nf][i][1],    // 21 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
-                            r[nf][i][2]);   // 22 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
+                    // fprintf(fList, " %f %f %f",
+                    //         r[nf][i][0],    // 20 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
+                    //         r[nf][i][1],    // 21 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
+                    //         r[nf][i][2]);   // 22 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
                     fprintf(fList_locs, " %f %f %f",
                             r[nf][i][0],    // 20 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
                             r[nf][i][1],    // 21 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*i
@@ -1173,19 +1173,19 @@ void dataRecording()
                 }
 
                 // print iSite ligand centers
-                for (iy=0;iy<iSiteTotal[nf];iy++)
-                {
-                    fprintf(fList, " %f %f %f",
-                            iLigandCenter[nf][iy][0],    // 23 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
-                            iLigandCenter[nf][iy][1],    // 24 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
-                            iLigandCenter[nf][iy][2]);   // 25 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
-                }
+                // for (iy=0;iy<iSiteTotal[nf];iy++)
+                // {
+                //     fprintf(fList, " %f %f %f",
+                //             iLigandCenter[nf][iy][0],    // 23 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                //             iLigandCenter[nf][iy][1],    // 24 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                //             iLigandCenter[nf][iy][2]);   // 25 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                // }
 
-                // print  base ligand centers
-                fprintf(fList, " %f %f %f",
-                        baseLigandCenter[nf][0],    // 26 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
-                        baseLigandCenter[nf][1],    // 27 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
-                        baseLigandCenter[nf][2]);   // 28 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                // // print  base ligand centers
+                // fprintf(fList, " %f %f %f",
+                //         baseLigandCenter[nf][0],    // 26 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                //         baseLigandCenter[nf][1],    // 27 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                //         baseLigandCenter[nf][2]);   // 28 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
 
 
                 // print bound site ligand centers
@@ -1193,10 +1193,10 @@ void dataRecording()
                 {
                     for (ib=0;ib<bSiteTotal[nf];ib++)
                     {
-                        fprintf(fList, " %f %f %f",
-                                bLigandCenter[nf][ib][0],    // 29 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
-                                bLigandCenter[nf][ib][1],    // 30 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
-                                bLigandCenter[nf][ib][2]);   // 31 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                        // fprintf(fList, " %f %f %f",
+                        //         bLigandCenter[nf][ib][0],    // 29 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                        //         bLigandCenter[nf][ib][1],    // 30 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
+                        //         bLigandCenter[nf][ib][2]);   // 31 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
                         fprintf(fList_bound, " %f %f %f",
                                 bLigandCenter[nf][ib][0],    // 29 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
                                 bLigandCenter[nf][ib][1],    // 30 + (NFil-1) + 3*(iSiteTotal[nf]-1) + 3*(N[nf]-1) + 3*iy
@@ -1209,22 +1209,22 @@ void dataRecording()
         } // end of filament loop (all output location numbers + (4 + NFil + 3*iSiteTotal[nf] + 1 + 3 + 3*N[nf] + 3*iSiteTotal[nf])*nf )
 
 
-            if (VISUALIZE)
-            {
-                if(BASEBOUND)
-                {
-                    fprintf(fList," %f %f %f",
-                            baseCenter[0],      // 1 + 7 + (4 + NFil + 3*iSiteTotal[nf] + 1 + 3 + 3*N[nf] + 3*iSiteTotal[nf] + 3 + MULTIPLE*3*bSiteTotal[nf])*NFil
-                            baseCenter[1],      // 2 + 7 + (4 + NFil + 3*iSiteTotal[nf] + 1 + 3 + 3*N[nf] + 3*iSiteTotal[nf] + 3 + MULTIPLE*3*bSiteTotal[nf])*NFil
-                            baseCenter[2]);     // 3 + 7 + (4 + NFil + 3*iSiteTotal[nf] + 1 + 3 + 3*N[nf] + 3*iSiteTotal[nf] + 3 + MULTIPLE*3*bSiteTotal[nf])*NFil
-                }
-            }
+            // if (VISUALIZE)
+            // {
+            //     if(BASEBOUND)
+            //     {
+            //         fprintf(fList," %f %f %f",
+            //                 baseCenter[0],      // 1 + 7 + (4 + NFil + 3*iSiteTotal[nf] + 1 + 3 + 3*N[nf] + 3*iSiteTotal[nf] + 3 + MULTIPLE*3*bSiteTotal[nf])*NFil
+            //                 baseCenter[1],      // 2 + 7 + (4 + NFil + 3*iSiteTotal[nf] + 1 + 3 + 3*N[nf] + 3*iSiteTotal[nf] + 3 + MULTIPLE*3*bSiteTotal[nf])*NFil
+            //                 baseCenter[2]);     // 3 + 7 + (4 + NFil + 3*iSiteTotal[nf] + 1 + 3 + 3*N[nf] + 3*iSiteTotal[nf] + 3 + MULTIPLE*3*bSiteTotal[nf])*NFil
+            //     }
+            // }
 
-            fprintf(fList, "\n");
+            // fprintf(fList, "\n");
             fprintf(fList_bound, "\n");
             fprintf(fList_base, "\n");
             fprintf(fList_locs, "\n");
-            fclose(fList);
+            // fclose(fList);
             fclose(fList_bound);
             fclose(fList_base);
             fclose(fList_locs);

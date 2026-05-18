@@ -550,7 +550,7 @@ void metropolisJoint()
                         {
                             if (baseboundtype==3)
                             {
-                                if ( bLigandCenterPropose[nf][i][2] <= brLigand ) //if ligand is above the plane?
+                                if ( bLigandCenterPropose[nf][ib][2] <= brLigand ) //if ligand is above the plane?
                                 {
                                     if ((bLigandCenterPropose[nf][ib][0]-baseCenter[0])*(bLigandCenterPropose[nf][ib][0]-baseCenter[0])+
                                         (bLigandCenterPropose[nf][ib][1]-baseCenter[1])*(bLigandCenterPropose[nf][ib][1]-baseCenter[1])<=
@@ -564,9 +564,9 @@ void metropolisJoint()
                             }
                             else if (baseboundtype==2)
                             {
-                                if ( bLigandCenterPropose[nf][i][2] <= brLigand ) //if ligand is above the plane?
+                                if ( bLigandCenterPropose[nf][ib][2] <= brLigand ) //if ligand is above the plane?
                                 {
-                                    boundCentertoBaseLigandDistance = bLigandCenterPropose[nf][i][2] - brLigand;
+                                    boundCentertoBaseLigandDistance = bLigandCenterPropose[nf][ib][2] - brLigand;
                                     ENew += 0.5*kBound*boundCentertoBaseLigandDistance*boundCentertoBaseLigandDistance;
                                 }
                             }
@@ -808,7 +808,7 @@ void metropolisJoint()
                         {
                             if (baseboundtype==3)
                             {
-                                if ( iLigandCenter[nf][i][2] <= 0 ) //if potential ligand  is above the plane?
+                                if ( iLigandCenter[nf][iy][2] <= 0 ) //if potential ligand  is above the plane?
                                 {
                                     if ( (iLigandCenter[nf][iy][0]-baseCenter[0])*(iLigandCenter[nf][iy][0]-baseCenter[0]) +
                                     (iLigandCenter[nf][iy][1]-baseCenter[1])*(iLigandCenter[nf][iy][1]-baseCenter[1])  <= (irLigand+baserLigand)*(irLigand+baserLigand))
@@ -819,7 +819,7 @@ void metropolisJoint()
                             }
                             else if (baseboundtype==2)
                             {
-                                if ( iLigandCenter[nf][i][2] <= 0 ) //if potential ligand  is above the plane?
+                                if ( iLigandCenter[nf][iy][2] <= 0 ) //if potential ligand  is above the plane?
                                 {
                                     stericOcclusion[nf][iy]++;
                                 }

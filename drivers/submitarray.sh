@@ -5,18 +5,22 @@ d=$(date +%Y.%d.%m_%H.%M.%S)
 #d='2023.14.01'
 
 # polymer number of segments to sweep over
-NStart=1
-NStop=100
+NStart=121
+NStop=121
 
 # output directory
-output_dir=/pub/kbogue1/GitHub/Data/polymer-c_data/FH2_sweep_debug/largeactin
+output_dir=/pub/kbogue1/GitHub/Data/polymer-c_data/stericocclusion/jumpy/cyl
 
 # dimerization state
-what='double' #'single' 'double'
+what='dimer' #'single' 'double'
 
-for what in 'double' 'dimer';do
+#for what in 'double' 'dimer';do
+for what in 'dimer' ;do
 
-  for baseval in 5 10 20 25; do
+
+  #for baseval in 35.5; do
+  for baseval in 1 16.667 35.5; do
+  #for baseval in 0.207 3.444 7.335; do
     cd /pub/kbogue1/GitHub/polymer-c/drivers
 
     #Edit these parameters:
@@ -34,7 +38,7 @@ for what in 'double' 'dimer';do
     fi
 
       cp arrayslurm.sub submit.${what}.${d}.sub
-      sed -i "24c\ ./metropolis.out parameters.txt output_${what}.N\${SLURM_ARRAY_TASK_ID}.iSite${iSite}.BSD${baseSepDist}.force${force}.kdimer${dimerForce}.txt 0 ${NFil} \$SLURM_ARRAY_TASK_ID -1 ${baseSepDist} 0 ${dimerForce}
+      sed -i "24c\ ./metropolis.out parameters.txt output_${what}.N\${SLURM_ARRAY_TASK_ID}.iSite${iSite}.BSD${baseSepDist}.force${force}.kdimer${dimerForce}.txt 1 ${NFil} \$SLURM_ARRAY_TASK_ID -1 ${baseSepDist} 0 ${dimerForce}
     " "submit.${what}.${d}.sub"
       sed -i "3c\#SBATCH --job-name=${what}_${baseSepDist}_${d}      ## Name of the job.
     " "submit.${what}.${d}.sub"
