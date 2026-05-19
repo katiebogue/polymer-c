@@ -1095,11 +1095,7 @@ void dataRecording()
     if (verboseTF)
     {
 
-<<<<<<< Updated upstream
         if ( (nt > NTCHECK && nt <= NTCHECK+301000 && (nt%1000) == 0) ) //only output ~300 runs with 200 runs in between, after initial transient
-=======
-        if ( (nt > NTCHECK && nt <= NTCHECK+2000000 && (nt%15) == 0) ) //only output 4000 runs, after initial transient
->>>>>>> Stashed changes
         {
             //printf("nt: %ld\n", nt);
             //printf("Starting file output in dataRecording");
