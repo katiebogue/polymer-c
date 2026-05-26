@@ -9,7 +9,7 @@ function idealepsilonheatmap(lookuptab,FH2_dist,type1,saveTF,savefigfolder,limit
 %       lookuptab       : (Lookuptable) lookuptable object to pull values
 %                       from
 %       FH2_dist        : (String) FH2 size to label
-%       type1           : (String) kpoly type (3st, 4st)
+%       type1           : (String) "double" or "single" 
 %       saveTF          : (Bool) Whether to save the figure (default is false)
 %       savefigfolder   : (String) Location to save the figure to (default
 %       is "")

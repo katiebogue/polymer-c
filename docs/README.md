@@ -16,6 +16,35 @@
 
 ## Quickstart
 
+To run a simulation:
+
+1. Modify any global settings variables in `src/PolymerCode/driveMetropolis.c`
+2. Compile the code `gcc -O3 driveMetropolis.c -o metropolis.out -lm`
+3. Modify any input parameters in `src/PolymerCode/parameters.txt` (note that the command line parameters overrule corresponding parameters in `parameters.txt`)
+4. Run a simulation:
+
+   ```bash
+   ./metropolis.out parameters.txt output.txt 0 Nfil NumSeg iSite baseSepDist force dimerForce radtype
+   ```
+
+   where the input parameters are as follows:
+
+* parameters.txt -- .txt file with input parameters (use the `parameters.txt` file)
+* output.txt -- name of the output file (note: you will get a few output files based on settings, all with this core file name)
+* 0
+* Nfil -- number of filaments (1 for "single", 2 for "double" or "dimer")
+* NumSeg -- number of rods in each filament
+* iSite -- not used, set to '-1'
+* baseSepDist -- distance (in kuhn lengths) between the bases when Nfil is 2
+* force -- force applied to the length of the filaments (set to 0 for most uses)
+* dimerForce -- spring force holding the far ends of the filaments together; only applies when Nfil is 2; set to 0 for "double" and set to 10 for "dimer"
+* radtype -- method for determining the radius used in calculations of local effective concentration (Prvec0)
+  * 10 - N/NBINS
+  * 20 - (iy+1)/NBINS
+  * 30 - (N*(iy+1))^0.5/(NBINS)
+  * 40 - N+(iy+1)/(2*NBINS)
+  * 50 - for(iy+1)>200, N/NBINS, for(iy+1)<=200 iy/NBINS
+
 To run on UCI hpc3:
 
 * go to `polymer-c/src/PolymerCode`
